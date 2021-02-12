@@ -14,14 +14,12 @@
 
 <script>
 export default {
-  mounted () {
-    if (this.listOfChampaign.length === 0) {
-      this.$store.dispatch('simpleFood/getListCampaign')
-    }
+  fetch () {
+    this.$store.dispatch('listCampaign/getListCampaign')
   },
   computed: {
     listOfChampaign () {
-      return this.$store.getters['simpleFood/listCampaign']
+      return this.$store.getters['listCampaign/listCampaign']
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img class="icon" :src="info.picture + '?acces-token=r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435&json=true'">
+    <img class="icon" :src=info.picture>
     <div class="text">
       <p class="title">
         {{info.description}}
@@ -9,7 +9,7 @@
         {{info.name}}
       </p>
     </div>
-    <button class="btn">
+    <button class="btn" @click="startCampaign(info.id)">
       Запустить
     </button>
   </div>
@@ -17,7 +17,14 @@
 
 <script>
 export default {
-  props: ['info']
+  props: ['info'],
+  methods: {
+    startCampaign (id) {
+      if (id === '1') {
+        this.$router.push('/step/first')
+      }
+    }
+  }
 }
 </script>
 
@@ -28,6 +35,10 @@ export default {
   padding: 30.5px 24px 24px 26px;
   display: inline-flex;
   margin-bottom: 16px;
+}
+
+.icon {
+  margin-right: 30px;
 }
 
 .text{
