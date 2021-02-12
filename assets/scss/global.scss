@@ -1,0 +1,11 @@
+.main-title{
+	@include main-title;
+}
+
+.title {
+	@include card-title;
+}
+
+.text {
+	@include card-text;
+}
