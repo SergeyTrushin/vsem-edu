@@ -5,6 +5,13 @@
 	line-height: 29px;
 }
 
+@mixin card {
+	background: #FFFFFF;
+	border: 2px solid;
+	box-sizing: border-box;
+	border-radius: 8px;
+}
+
 @mixin card-title {
   @include main-title;
 	font-weight: 700;
@@ -15,4 +22,14 @@
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 20px;
+}
+
+@mixin btn {
+	padding: 16px 62px;
+	display: inline-flex;
+	justify-content:center;
+	align-items: center;
+	border-radius: 8px;
+	outline: none;
+	cursor: pointer;
 }
