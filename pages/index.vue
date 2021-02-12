@@ -14,8 +14,8 @@
 
 <script>
 export default {
-  fetch () {
-    this.$store.dispatch('listCampaign/getListCampaign')
+  async fetch () {
+    await this.$store.dispatch('listCampaign/getListCampaign')
   },
   computed: {
     listOfChampaign () {

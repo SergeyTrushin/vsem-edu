@@ -7,9 +7,9 @@
     <div class="dropdown-options-container" v-show="showDropdown">
     <div
         class="dropdown-options"
-        v-for="option in options"
-        :key="option.name"
-        v-bind:class="{ selected: option === selected }">
+        v-for="product in products"
+        :key="product.name"
+        v-bind:class="{ selected: product === selected }">
         <div
           class="dropdown-options--cell"
           @click="selectOption(option);">
@@ -22,6 +22,10 @@
 
 <script>
 export default {
+  async fetch ({ store }) {
+    await this.store.dispatch('simpleFood/fetchProducts')
+    console.log('data===', this.products)
+  },
   data () {
     return {
       selected: '',
@@ -30,8 +34,14 @@ export default {
       placeholder: 'Выберите подарок'
     }
   },
+  computed: {
+    products () {
+      return this.$store.getters['simpleFood/getProducts']
+    }
+  },
   methods: {
     toggleDropdown () {
+      console.log('products===', this.products)
       this.showDropdown = !this.showDropdown
     },
     selectOption (option) {

@@ -9,7 +9,7 @@
           <label for="discount">Скидка</label>
         </div>
         <div>
-          <input type="radio" id="gift" value="gift" name="type">
+          <input type="radio" id="gift" value="gift" name="type" checked>
           <label for="gift">Подарок</label>
         </div>
       </form>

@@ -1,22 +1,22 @@
 export const state = () => ({
-  products: []
+  products: null
 })
 
 export const mutations = {
-  fillProducts (state, products) {
+  setProducts (state, products) {
     state.products = products
   }
 }
 
 export const actions = {
-  async getProducts ({ commit }) {
+  async fetchProducts ({ commit }) {
     const token = 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435'
-    const resp = await fetch(`https://vsem-edu-oblako.ru/adminapi/api/getListCampaign?access_token=${token}&json=true`)
+    const resp = await fetch(`https://vsem-edu-oblako.ru/adminapi/api/getSimpleFood?access_token=${token}&json=true`)
     const data = await resp.json()
-    commit('fillProducts', data.details)
+    commit('setProducts', data.msg)
   }
 }
 
 export const getters = {
-  listCampaign: s => s.listCampaign
+  getProducts: s => s.products
 }
