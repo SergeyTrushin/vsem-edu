@@ -39,6 +39,9 @@ export default {
 
 .icon {
   margin-right: 30px;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
 }
 
 .text{
