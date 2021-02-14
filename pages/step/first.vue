@@ -31,8 +31,8 @@
       <label for="promo">Свой промокод</label>
     </div>
     <div>
-      <button class="btn back">Назад</button>
-      <button class="btn next">Далее</button>
+      <button class="btn back" @click="back">Назад</button>
+      <button class="btn next" @click="next">Далее</button>
     </div>
   </div>
 </template>
@@ -49,49 +49,23 @@ export default {
     changeType (event) {
       this.type = event.target.value
     },
-    onInput ({ target }) {
-      let val = target.value
-      if (val.match(/\d/g).length !== 0) {
-        val.match(/\d/g).forEach((el) => {
-          val += el
-        })
-        target.dispatchEvent(new Event('input'))
-      }
+    onInput ({ target }) {},
+    back () {
+      this.$router.push('/')
+    },
+    next () {
+      this.$router.push({ path: '/success' })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@mixin customCheckbox {
-  input[type=checkbox], input[type=radio] {
-      display: none;
-    }
-  label {
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-  }
-  label:before {
-    content: "";
-    width: 18px;
-    height: 18px;
-    margin-right: 15px;
-  }
-  input:checked + label:before {
-    background: url(~assets/img/radio-checked.svg);
-  }
-  input:not(:checked) + label:before {
-    background: url(~assets/img/radio.svg);
-  }
-}
-
 *{
   @include card-text;
 }
 
 .main-title {
-  @include main-title;
   margin-bottom: 32px;
 }
 
@@ -101,7 +75,6 @@ p {
 }
 
 .card {
-  @include card;
   display: inline-flex;
   border-color: $typeBorderColor;
   padding: 20px 22px 20px 16px;
@@ -126,7 +99,6 @@ p {
     margin-bottom: 26px;
 }
 .btn {
-  @include btn;
   padding-top: 14px;
   padding-bottom: 14px;
   &.back {

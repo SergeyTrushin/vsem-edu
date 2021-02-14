@@ -9,12 +9,7 @@
 </template>
 
 <style lang="scss">
-.main-title {
-  @include main-title;
-}
-
 .card {
-  @include card;
   margin-top: 26px;
   display:inline-flex;
   width: 400px;
