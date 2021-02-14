@@ -1,15 +1,17 @@
 <template>
   <div>
-    <h1 class="main-title">Мастер акций — Шаг 1/2</h1>
+    <h1 class="main-title">
+      Мастер акций — Шаг 1/2
+    </h1>
     <p>Что даем за первый заказ?</p>
     <div class="card">
       <form @change="changeType">
         <div>
-          <input type="radio" id="discount" value="discount" name="type">
+          <input id="discount" type="radio" value="discount" name="type">
           <label for="discount">Скидка</label>
         </div>
         <div>
-          <input type="radio" id="gift" value="gift" name="type" checked>
+          <input id="gift" type="radio" value="gift" name="type" checked>
           <label for="gift">Подарок</label>
         </div>
       </form>
@@ -17,22 +19,29 @@
     <div v-if="type == 'gift'">
       <p>Выберите подарок из списка</p>
       <div class="card">
-      <Select />
+        <Select />
       </div>
     </div>
     <div v-else>
       <p>Размер скидки</p>
-      <div class="card">
-        <input type="text" @input="onInput" v-model="discount">
+      <div class="card discount">
+        <input v-model="discount" type="text" @input="onInput">
       </div>
     </div>
-    <div class="promo-code">
-      <input type="checkbox" id="promo" name="promo">
+    <div class="promo-code" :class="{ withoutMargin: promo }">
+      <input id="promo" v-model="promo" type="checkbox" name="promo">
       <label for="promo">Свой промокод</label>
     </div>
-    <div>
-      <button class="btn back" @click="back">Назад</button>
-      <button class="btn next" @click="next">Далее</button>
+    <div v-if="promo" class="card">
+      <input id="promo" v-model="promoValue" type="text" name="promo">
+    </div>
+    <div class="buttons">
+      <button class="btn back" @click="back">
+        Назад
+      </button>
+      <button class="btn next" @click="next">
+        Далее
+      </button>
     </div>
   </div>
 </template>
@@ -43,18 +52,28 @@ export default {
   components: { Select },
   data: () => ({
     type: 'gift',
-    discount: '0 %'
+    discount: '',
+    promo: false,
+    promoValue: '',
+    valid: false
   }),
   methods: {
     changeType (event) {
       this.type = event.target.value
     },
-    onInput ({ target }) {},
+    onInput ({ target }) {
+      if (!/\d/g.test(target.value[target.value.length - 1]) || target.value === '0' || +target.value >= 100) {
+        target.value = target.value.slice(0, -1)
+        this.discount = target.value
+      }
+    },
     back () {
       this.$router.push('/')
     },
     next () {
-      this.$router.push({ path: '/success' })
+      if (this.valid) {
+        this.$router.push({ path: '/success' })
+      }
     }
   }
 }
@@ -64,16 +83,13 @@ export default {
 *{
   @include card-text;
 }
-
 .main-title {
   margin-bottom: 32px;
 }
-
 p {
   padding-left: 20px;
   margin-bottom: 16px;
 }
-
 .card {
   display: inline-flex;
   border-color: $typeBorderColor;
@@ -92,7 +108,15 @@ p {
     display: inline-block;
   }
 }
-
+.discount {
+  input:before {
+    content: '%';
+    display: inline-block!important;
+    width: 100px;
+    height: 100px;
+    background: red;
+  }
+}
 .promo-code {
     @include customCheckbox;
     padding-left: 20px;
@@ -113,5 +137,14 @@ p {
     background: $btnColor;
     border-color: transparent;
   }
+}
+.withoutMargin {
+  margin-bottom: 10px;
+}
+#promo {
+  color: $mainFontColor;
+}
+.buttons {
+  margin-top: 8px;
 }
 </style>

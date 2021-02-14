@@ -1,9 +1,13 @@
 <template>
   <div>
-    <h1 class="main-title">Мастер акций — Шаг 2/2</h1>
+    <h1 class="main-title">
+      Мастер акций — Шаг 2/2
+    </h1>
     <div class="card">
       <img src="../assets/img/success.svg" alt="">
-      <p class="main-title">Акция успешно запущена!</p>
+      <p class="main-title">
+        Акция успешно запущена!
+      </p>
     </div>
   </div>
 </template>

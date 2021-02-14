@@ -4,15 +4,17 @@
       <span>{{ placeholder }}</span>
       <img src="../assets/img/Arrow-down.svg" alt="">
     </span>
-    <div class="dropdown-options-container" v-show="showDropdown">
-    <div
-        class="dropdown-options"
+    <div v-show="showDropdown" class="dropdown-options-container">
+      <div
         v-for="product in products"
         :key="product.name"
-        v-bind:class="{ selected: product === selected }">
+        :class="{ selected: product === selected }"
+        class="dropdown-options"
+      >
         <div
           class="dropdown-options--cell"
-          @click="selectOption(option);">
+          @click="selectOption(option);"
+        >
           <span class="option-text">По {{ option }}</span>
         </div>
       </div>
@@ -22,10 +24,6 @@
 
 <script>
 export default {
-  async fetch ({ store }) {
-    await this.store.dispatch('simpleFood/fetchProducts')
-    console.log('data===', this.products)
-  },
   data () {
     return {
       selected: '',
@@ -33,6 +31,9 @@ export default {
       options: ['цене', 'популярности'],
       placeholder: 'Выберите подарок'
     }
+  },
+  async fetch ({ store }) {
+    await this.store.dispatch('simpleFood/fetchProducts')
   },
   computed: {
     products () {
@@ -72,12 +73,6 @@ $light-gray: #f8f8f8;
   color: #1f1f1f;
   transition: all 200ms linear;
   width: 100%;
-  b {
-    color: #59606d;
-    font-style: normal;
-    font-weight: normal;
-    margin-left: 4px;
-  }
   .selected-option {
     @include ellipsis();
     display: flex;
