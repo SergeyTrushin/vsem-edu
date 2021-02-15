@@ -24,7 +24,7 @@
     </div>
     <div v-else>
       <p>Размер скидки</p>
-      <div class="card discount">
+      <div class="card discount-amount">
         <input v-model="discount" type="text" @input="onInput">
       </div>
     </div>
@@ -89,8 +89,13 @@ export default {
             access_token: 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435',
             code: 'first_order'
           },
-          body: JSON.stringify({ gift: this.gift })
+          body: JSON.stringify({
+            id: new Date(),
+            gift: this.gift,
+            promo: this.promoValue
+          })
         })
+        this.$router.push({ path: '/success', params: { promo: this.promoValue } })
       }
       if (this.type === 'discount' && this.discount) {
         await fetch('', {
@@ -99,8 +104,13 @@ export default {
             access_token: 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435',
             code: 'first_order'
           },
-          body: JSON.stringify({ discount: this.discount })
+          body: JSON.stringify({
+            id: new Date(),
+            discount: this.discount,
+            promo: this.promoValue
+          })
         })
+        this.$router.push({ path: '/success' })
       }
     }
   }
@@ -136,7 +146,7 @@ p {
     display: inline-block;
   }
 }
-.discount {
+.discount-amount {
   input:before {
     content: '%';
     display: inline-block!important;

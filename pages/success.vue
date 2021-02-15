@@ -8,9 +8,17 @@
       <p class="main-title">
         Акция успешно запущена!
       </p>
+      <button class="btn" @click="$router.push({ path: '/' })">
+        Все акции
+      </button>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+}
+</script>
 
 <style lang="scss">
 .card {
@@ -27,6 +35,11 @@
   p {
     max-width: 200px;
     text-align: center;
+  }
+  .btn {
+    background: $btnColor;
+    border-color: transparent;
+    color: #fff;
   }
 }
 </style>
