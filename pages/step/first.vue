@@ -4,36 +4,36 @@
       Мастер акций — Шаг 1/2
     </h1>
     <p>Что даем за первый заказ?</p>
-    <div class="card">
+    <div class="card-inline">
       <form @change="changeType">
         <div>
-          <input id="discount" type="radio" value="discount" name="type">
+          <input id="discount" type="radio" value="discount" name="type" checked>
           <label for="discount">Скидка</label>
         </div>
         <div>
-          <input id="gift" type="radio" value="gift" name="type" checked>
+          <input id="gift" type="radio" value="gift" name="type">
           <label for="gift">Подарок</label>
         </div>
       </form>
     </div>
-    <div v-if="type == 'gift'">
+    <div v-if="type === 'gift'">
       <p>Выберите подарок из списка</p>
-      <div class="card">
-        <Select :products="products" @changeGift="changeGift"/>
+      <div class="card-inline">
+        <Select :products="products" @changeGift="changeGift" />
       </div>
     </div>
     <div v-else>
       <p>Размер скидки</p>
-      <div class="card discount-amount">
-        <input v-model="discount" type="text" @input="onInput">
+      <div class="card-inline discount-amount">
+        <input v-model="discount" type="text" maxlength="3" @input="onInput">
       </div>
     </div>
     <div class="promo-code" :class="{ withoutMargin: promo }">
       <input id="promo" v-model="promo" type="checkbox" name="promo">
       <label for="promo">Свой промокод</label>
     </div>
-    <div v-if="promo" class="card">
-      <input id="promo" v-model="promoValue" type="text" name="promo">
+    <div v-if="promo" class="card-inline">
+      <input id="promo" v-model="promoValue" type="text" name="promo" @input="changePromo">
     </div>
     <div class="buttons">
       <button class="btn back" @click="back">
@@ -51,14 +51,16 @@ import Select from '../../components/Select.vue'
 export default {
   components: { Select },
   data: () => ({
-    type: 'gift',
-    discount: '',
+    type: 'discount',
+    discount: '10%',
     promo: false,
     promoValue: '',
     gift: ''
   }),
   async fetch () {
-    await this.$store.dispatch('simpleFood/fetchProducts')
+    if (this.products === null) {
+      await this.$store.dispatch('simpleFood/fetchProducts')
+    }
   },
   computed: {
     products () {
@@ -70,10 +72,18 @@ export default {
       this.type = event.target.value
     },
     onInput ({ target }) {
-      if (!/\d/g.test(target.value[target.value.length - 1]) || target.value === '0' || +target.value >= 100) {
-        target.value = target.value.slice(0, -1)
-        this.discount = target.value
+      const int = target.value.slice(0, target.value.length - 1).replace(/[A-Za-z]/g, '')
+      if (int.includes('%')) {
+        this.discount = '%'
+      } else if (int.length >= 0 & int.length <= 3) {
+        const whole = int.slice(0, 2)
+        this.discount = whole + '%'
+      } else {
+        this.discount = int + '%'
       }
+    },
+    changePromo () {
+      this.$store.commit('data/setPromo', this.promoValue)
     },
     changeGift (product) {
       this.gift = product
@@ -92,7 +102,7 @@ export default {
           body: JSON.stringify({
             id: new Date(),
             gift: this.gift,
-            promo: this.promoValue
+            promo: this.promoValue ? this.promoValue : null
           })
         })
         this.$router.push({ path: '/success', params: { promo: this.promoValue } })
@@ -107,7 +117,7 @@ export default {
           body: JSON.stringify({
             id: new Date(),
             discount: this.discount,
-            promo: this.promoValue
+            promo: this.promoValue ? this.promoValue : null
           })
         })
         this.$router.push({ path: '/success' })
@@ -117,7 +127,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 *{
   @include card-text;
 }
@@ -128,7 +138,8 @@ p {
   padding-left: 20px;
   margin-bottom: 16px;
 }
-.card {
+.card-inline {
+  @include card;
   display: inline-flex;
   border-color: $typeBorderColor;
   padding: 20px 22px 20px 16px;

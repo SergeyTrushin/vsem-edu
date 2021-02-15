@@ -10,7 +10,9 @@
 <script>
 export default {
   async fetch () {
-    await this.$store.dispatch('listCampaign/getListCampaign')
+    if (this.listOfChampaign.length === 0) {
+      await this.$store.dispatch('listCampaign/getListCampaign')
+    }
   },
   computed: {
     listOfChampaign () {

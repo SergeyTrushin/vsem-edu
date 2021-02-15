@@ -4,6 +4,16 @@
   @include card;
 }
 
+.success-card {
+  @include card;
+  display:inline-flex;
+  width: 400px;
+  flex-direction: column!important;
+  align-items: center;
+  justify-content: center;
+  padding:88px 0 60px 0;
+}
+
 .main-title {
   @include main-title;
 }
