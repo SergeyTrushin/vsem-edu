@@ -1,21 +1,21 @@
 <template>
   <div class="vue-select" @click="toggleDropdown">
     <span class="selected-option">
-      <span>{{ placeholder }}</span>
+      <span>{{ gift }}</span>
       <img src="../assets/img/Arrow-down.svg" alt="">
     </span>
     <div v-show="showDropdown" class="dropdown-options-container">
       <div
         v-for="product in products"
         :key="product.name"
-        :class="{ selected: product === selected }"
+        :class="{ selected: product.item_name === gift }"
         class="dropdown-options"
       >
         <div
           class="dropdown-options--cell"
-          @click="selectOption(option);"
+          @click="selectOption(product)"
         >
-          <span class="option-text">По {{ option }}</span>
+          <span class="option-text">{{ product.item_name }}</span>
         </div>
       </div>
     </div>
@@ -24,29 +24,24 @@
 
 <script>
 export default {
-  data () {
-    return {
-      selected: '',
-      showDropdown: false,
-      options: ['цене', 'популярности'],
-      placeholder: 'Выберите подарок'
+  props: {
+    products: {
+      type: Array,
+      default: () => []
     }
   },
-  async fetch ({ store }) {
-    await this.store.dispatch('simpleFood/fetchProducts')
-  },
-  computed: {
-    products () {
-      return this.$store.getters['simpleFood/getProducts']
+  data () {
+    return {
+      showDropdown: false,
+      gift: 'Выберите подарок'
     }
   },
   methods: {
     toggleDropdown () {
-      console.log('products===', this.products)
       this.showDropdown = !this.showDropdown
     },
-    selectOption (option) {
-      this.selected = option
+    selectOption (product) {
+      this.gift = product.item_name
     }
   }
 }

@@ -19,7 +19,7 @@
     <div v-if="type == 'gift'">
       <p>Выберите подарок из списка</p>
       <div class="card">
-        <Select />
+        <Select :products="products" @changeGift="changeGift"/>
       </div>
     </div>
     <div v-else>
@@ -55,8 +55,17 @@ export default {
     discount: '',
     promo: false,
     promoValue: '',
-    valid: false
+    valid: false,
+    gift: ''
   }),
+  async fetch () {
+    await this.$store.dispatch('simpleFood/fetchProducts')
+  },
+  computed: {
+    products () {
+      return this.$store.getters['simpleFood/getProducts']
+    }
+  },
   methods: {
     changeType (event) {
       this.type = event.target.value
@@ -66,6 +75,10 @@ export default {
         target.value = target.value.slice(0, -1)
         this.discount = target.value
       }
+    },
+    changeGift(product) {
+      console.log(product)
+      this.gift = product
     },
     back () {
       this.$router.push('/')
