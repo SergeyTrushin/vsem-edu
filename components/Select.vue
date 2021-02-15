@@ -42,6 +42,7 @@ export default {
     },
     selectOption (product) {
       this.gift = product.item_name
+      this.$emit('changeGift', product)
     }
   }
 }

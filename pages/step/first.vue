@@ -55,7 +55,6 @@ export default {
     discount: '',
     promo: false,
     promoValue: '',
-    valid: false,
     gift: ''
   }),
   async fetch () {
@@ -76,16 +75,32 @@ export default {
         this.discount = target.value
       }
     },
-    changeGift(product) {
-      console.log(product)
+    changeGift (product) {
       this.gift = product
     },
     back () {
       this.$router.push('/')
     },
-    next () {
-      if (this.valid) {
-        this.$router.push({ path: '/success' })
+    async next () {
+      if (this.type === 'gift' && this.gift) {
+        await fetch('', {
+          method: 'POST',
+          headers: {
+            access_token: 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435',
+            code: 'first_order'
+          },
+          body: JSON.stringify({ gift: this.gift })
+        })
+      }
+      if (this.type === 'discount' && this.discount) {
+        await fetch('', {
+          method: 'POST',
+          headers: {
+            access_token: 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435',
+            code: 'first_order'
+          },
+          body: JSON.stringify({ discount: this.discount })
+        })
       }
     }
   }
