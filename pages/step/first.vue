@@ -93,7 +93,7 @@ export default {
     },
     async next () {
       if (this.type === 'gift' && this.gift) {
-        await fetch('', {
+        await fetch('https://vsem-edu-oblako.ru/adminapi/api/addCampaignItem', {
           method: 'POST',
           headers: {
             access_token: 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435',
@@ -108,7 +108,7 @@ export default {
         this.$router.push({ path: '/success', params: { promo: this.promoValue } })
       }
       if (this.type === 'discount' && this.discount) {
-        await fetch('', {
+        await fetch('https://vsem-edu-oblako.ru/adminapi/api/addCampaignItem', {
           method: 'POST',
           headers: {
             access_token: 'r27iavtafltg4e18dc265dd6a6452d21d89771b7deb6435',
